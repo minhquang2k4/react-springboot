@@ -33,6 +33,7 @@ public class FormatResponse implements ResponseBodyAdvice<Object> {
     RestResponse<Object> res = new RestResponse<Object>();
     res.setStatusCode(status);
 
+    // nếu body là String thì không cần format lại. tránh lỗi vì yêu cầu đầu vào là object
     if (body instanceof String) {
       return body;
     }

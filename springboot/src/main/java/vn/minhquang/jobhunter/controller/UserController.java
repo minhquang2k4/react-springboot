@@ -10,7 +10,7 @@ import java.util.List;
 
 import vn.minhquang.jobhunter.domain.User;
 import vn.minhquang.jobhunter.service.UserService;
-import vn.minhquang.jobhunter.service.error.IdInvalidException;
+import vn.minhquang.jobhunter.util.error.IdInvalidException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +31,7 @@ public class UserController {
 
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
+    // encode password with BCryptPasswordEncoder defined in SecurityConfiguration
     String encodedPassword = this.passwordEncoder.encode(user.getPassword());
     user.setPassword(encodedPassword);
 

@@ -1,4 +1,4 @@
-package vn.minhquang.jobhunter.service.error;
+package vn.minhquang.jobhunter.util.error;
 
 public class IdInvalidException extends Exception {
   public IdInvalidException(String message) {

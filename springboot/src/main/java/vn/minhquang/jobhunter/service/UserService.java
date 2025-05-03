@@ -40,4 +40,8 @@ public class UserService {
     return this.userRepository.findAll();
   }
 
+  public User handleFindUserByUsername(String username) {
+    return this.userRepository.findByEmail(username);
+  }
+
 }
