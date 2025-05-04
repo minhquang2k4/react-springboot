@@ -15,13 +15,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import vn.minhquang.jobhunter.domain.RestResponse;
 
-@RestControllerAdvice // ** Global exception handler for the application. But it just handle Exceiption in Controller */
+@RestControllerAdvice // ** Global exception handler for the application. But it just handle
+                      // Exceiption in Controller */
 public class GlobalException {
 
   @ExceptionHandler(value = {
-      IdInvalidException.class,
       UsernameNotFoundException.class,
       BadCredentialsException.class,
+  })
+  public ResponseEntity<RestResponse<Object>> handleToken(Exception e) {
+    RestResponse<Object> res = new RestResponse<Object>();
+
+    res.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+    res.setError(e.getMessage());
+    res.setMessage("Eception occur");
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res); 
+  }
+
+
+  @ExceptionHandler(value = {
+      IdInvalidException.class,
   })
   public ResponseEntity<RestResponse<Object>> handleIdInvalidException(IdInvalidException e) {
     RestResponse<Object> res = new RestResponse<Object>();
