@@ -1,6 +1,7 @@
 package vn.minhquang.jobhunter.config;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -37,7 +38,15 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     RestResponse<Object> restResponse = new RestResponse<>();
     restResponse.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-    restResponse.setError(authException.getCause().getMessage());
+
+    String errorMessage = Optional.ofNullable(authException.getCause())
+        .map(Throwable::getMessage)
+        .orElse(authException.getMessage());
+    restResponse.setError(errorMessage);
+
+    // code như này là oảng vì k truyền lên token sẽ không có authException.getCause()
+    // restResponse.setError(authException.getCause().getMessage());
+
     restResponse.setMessage("Unauthorized");
 
     mapper.writeValue(response.getWriter(), restResponse);
